@@ -1,0 +1,22 @@
+.form-class{
+    margin-left: 20%;
+    margin-top: 40px;
+    border: 1px solid black;
+    width: 60%;
+}
+.label-class{
+    margin: 20px;
+}
+/* .input-class{
+
+} */
+.sect{
+    margin: 20px 10px;
+}
+.add-btn{
+    padding: 8px;
+    color: white;
+    background-color: rgb(102, 102, 224);
+    width: 10%;
+    border-radius: 10px;
+}
