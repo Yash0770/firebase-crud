@@ -1,76 +1,108 @@
-import React, { useReducer, useState } from 'react';
-import { useParams } from 'react-router-dom';
-// import fireDb from '../firebase';
+// import fireDb from '../firebase'// AddEdit.js
+
+// AddEdit.js
+
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import fireDb from '../firebase';
 import { toast } from 'react-toastify';
-import {getFirestore, collection, addDoc } from 'firebase/firestore';
-// import { getFirestore } from 'firebase/firestore/lite';
-import { db } from "../firebase";
-import './AddEdit.css';
 
 const initialState = {
   name: '',
-  email:'',
+  email: '',
   contact: ''
-}
+};
 
-function AddEdit() {
-
+const AddEdit = () => {
   const [state, setState] = useState(initialState);
-  const {name, email, contact} = state;
-  const { id } = useParams();
 
-  // const db = getFirestore(); // create a Firestore database instance
-  console.log("db", db)
+  const { name, email, contact } = state;
+  const navigate = useNavigate();
 
-  const handleInputChange = (e)=>{
-    const {name, value} = e.target
-    setState({
-      ...state,
-      [name]:value
-    })
-  }
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setState({ ...state, [name]: value });
+  };
 
-  const handleSubmit = async (e) => {
-    console.log('done');
-    console.log("e", e);
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if(!name || !email || !contact){
-      toast.error('Please provide values in each field')
-    } else {
-      try {
-        console.log('calling');
-        // const docRef = await addDoc(collection(db, 'contact'), state);
-        const docRef = await db.collection("contacts")
-        console.log('state', state);
-        console.log('doc', docRef);
-        console.log('123');
-        // add the contact data to Firestore database
-        toast.success('Contact added successfully');
-        // setTimeout(() => {
-        //   window.location.href = '/'; // navigate back to home page
-        // }, 500);
-      } catch (err) {
-        toast.error(err.message);
-      }
+
+    if (!name || !email || !contact) {
+      toast.error('Please fill all fields.');
+      return;
     }
+
+    // fireDb.ref("contacts").set({
+    //   name : name,
+    //   email:email,
+    //   contact:contact
+    // }) 
+
+    fireDb.ref('contacts').set(state, (err) => {
+      if (err) {
+        toast.error(err.message);
+      } else {
+        toast.success('Contact has been added successfully.');
+        setTimeout(() => navigate('/'), 1000);
+      }
+    });
   };
 
   return (
-    <div>
-      <form action="" className='form-class' onSubmit={handleSubmit}> 
-        <label className='label-class sect' htmlFor="name">Name</label>
-        {/* <label className='label-class sect' id='name' name='name' placeholder='enter' htmlFor="">Name : </label> */}
-        <input className='input-class sect' type="text" name='name' id='name' placeholder='Your name...' value={name} onChange={handleInputChange}/><br />
-        <label className='label-class sect' htmlFor="email">Email</label>
-        {/* <label className='label-class sect' id='email' name='email' placeholder='enter' htmlFor="">Email : </label> */}
-        <input className='input-class sect' type="email" name='email' id='email' placeholder='Your email...' value={email} onChange={handleInputChange}/><br />
-        <label className='label-class sect' htmlFor="contact">Contact</label>
-        {/* <label className='label-class sect' id='contact' name='contact' placeholder='enter' htmlFor="">Contact : </label> */}
-        <input className='input-class sect' type="number" name='contact' id='contact' placeholder='Your contact...' value={contact} onChange={handleInputChange}/><br />
-        <input type="submit" value = 'save'/>
-      </form>
+    <div className="container mt-4">
+      <div className="row">
+        <div className="col-md-6 offset-md-3">
+          <form onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label htmlFor="name" className="form-label">
+                Name
+              </label>
+              <input
+                type="text"
+                className="form-control"
+                id="name"
+                name="name"
+                placeholder="Enter name"
+                value={name}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="email" className="form-label">
+                Email address
+              </label>
+              <input
+                type="email"
+                className="form-control"
+                id="email"
+                name="email"
+                placeholder="Enter email"
+                value={email}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="contact" className="form-label">
+                Contact
+              </label>
+              <input
+                type="number"
+                className="form-control"
+                id="contact"
+                name="contact"
+                placeholder="Enter contact number"
+                value={contact}
+                onChange={handleChange}
+              />
+            </div>
+            <button type="submit" className="btn btn-primary">
+              Save
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
 export default AddEdit;
