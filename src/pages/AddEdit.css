@@ -20,3 +20,9 @@
     width: 10%;
     border-radius: 10px;
 }
+.inputClass{
+    width: 300px;
+}
+.inputClass:invalid{
+    border: 2px solid red;
+}

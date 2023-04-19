@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import fireDb from '../firebase';
 import { toast } from 'react-toastify';
+import './AddEdit.css'
 
 const initialState = {
   name: '',
@@ -18,7 +19,7 @@ const AddEdit = () => {
 
   const { name, email, contact } = state;
   const navigate = useNavigate();
-
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setState({ ...state, [name]: value });
@@ -37,57 +38,66 @@ const AddEdit = () => {
     //   email:email,
     //   contact:contact
     // }) 
-
-    fireDb.ref('contacts').set(state, (err) => {
-      if (err) {
-        toast.error(err.message);
-      } else {
-        toast.success('Contact has been added successfully.');
-        setTimeout(() => navigate('/'), 1000);
-      }
-    });
+    else{
+      fireDb.ref('contact').push(state, (err)=>{
+        console.log(state);
+        if(err){
+          toast.error(err.message);
+        } else{
+          toast.success('Contact has been added successfully')
+          setTimeout(()=>navigate('/'),500)
+        }
+      })
+    }
   };
 
   return (
     <div className="container mt-4">
+      <br />
       <div className="row">
         <div className="col-md-6 offset-md-3">
           <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-              <label htmlFor="name" className="form-label">
-                Name
+            <div className="container mb-3 d-flex">
+              <label htmlFor="name" className="form-label col-4">
+                Name : 
               </label>
               <input
                 type="text"
-                className="form-control"
+                className=" inputClass col-4"
                 id="name"
                 name="name"
+                autoComplete="none"
+                // pattern="[A-Za-z]{3}"
+                // pattern="[a-z]*"
                 placeholder="Enter name"
                 value={name}
                 onChange={handleChange}
               />
             </div>
-            <div className="mb-3">
-              <label htmlFor="email" className="form-label">
-                Email address
+            <div className="container mb-3 d-flex">
+              <label htmlFor="email" className="form-label col-4">
+                Email address : 
               </label>
               <input
                 type="email"
-                className="form-control"
+                className="form-control inputClass col-4"
                 id="email"
                 name="email"
+                autoComplete='none'
                 placeholder="Enter email"
                 value={email}
                 onChange={handleChange}
               />
             </div>
-            <div className="mb-3">
-              <label htmlFor="contact" className="form-label">
-                Contact
+            <div className="container mb-3 d-flex">
+              <label htmlFor="contact" className="form-label col-4">
+                Contact : 
               </label>
               <input
                 type="number"
-                className="form-control"
+                // pattern='0-9'
+                inputMode='Numeric'
+                className="form-control inputClass col-4"
                 id="contact"
                 name="contact"
                 placeholder="Enter contact number"
