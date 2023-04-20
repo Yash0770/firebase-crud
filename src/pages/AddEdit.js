@@ -2,8 +2,8 @@
 
 // AddEdit.js
 
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import fireDb from '../firebase';
 import { toast } from 'react-toastify';
 import './AddEdit.css'
@@ -16,9 +16,36 @@ const initialState = {
 
 const AddEdit = () => {
   const [state, setState] = useState(initialState);
+  const [data, setData] = useState()
 
   const { name, email, contact } = state;
   const navigate = useNavigate();
+
+  const {id}= useParams()
+
+  useEffect(()=>{
+    fireDb.ref('contact').on('value',(snapshot)=>{
+      if(snapshot.val() !== null){
+      setData({...snapshot.val()});
+      }else{
+        setData({})
+      }
+    });
+    return ()=>{
+      setData({})
+    }
+  },[id])
+
+  useEffect(()=>{
+    if(id && data){
+      setState({...data[id]})
+    }else{
+      setState({...initialState})
+    }
+    return ()=>{
+      setState({...initialState})
+    }
+  },[id, data])
   
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,20 +66,32 @@ const AddEdit = () => {
     //   contact:contact
     // }) 
     else{
-      fireDb.ref('contact').push(state, (err)=>{
-        console.log(state);
-        if(err){
-          toast.error(err.message);
-        } else{
-          toast.success('Contact has been added successfully')
-          setTimeout(()=>navigate('/'),500)
-        }
-      })
+      if(!id){
+        fireDb.ref('contact').push(state, (err)=>{
+          console.log(state);
+          if(err){
+            toast.error(err.message);
+          } else{
+            toast.success('Contact has been added successfully')
+            setTimeout(()=>navigate('/'),500)
+          }
+        })
+      }else{
+        fireDb.ref(`contact/${id}`).set(state, (err)=>{
+          console.log(state);
+          if(err){
+            toast.error(err.message);
+          } else{
+            toast.success('Contact updated successfully')
+            setTimeout(()=>navigate('/'),500)
+          }
+        })
+      }
     }
   };
 
   return (
-    <div className="container mt-4">
+    <div className="container mt-5">
       <br />
       <div className="row">
         <div className="col-md-6 offset-md-3">
@@ -63,14 +102,17 @@ const AddEdit = () => {
               </label>
               <input
                 type="text"
-                className=" inputClass col-4"
+                // size='4'
+                className="form-control inputClass col-4"
                 id="name"
                 name="name"
                 autoComplete="none"
                 // pattern="[A-Za-z]{3}"
-                // pattern="[a-z]*"
-                placeholder="Enter name"
-                value={name}
+                // pattern="[a-z]"
+                pattern="[A-Za-z]+"
+                maxLength={'30'}
+                placeholder="Enter name..."
+                value={name || ''}
                 onChange={handleChange}
               />
             </div>
@@ -83,9 +125,10 @@ const AddEdit = () => {
                 className="form-control inputClass col-4"
                 id="email"
                 name="email"
+                pattern="[a-zA-Z0-9._%+-]+@(gmail\.com|hotmail\.com|yahoo\.com|email\.com)$"
                 autoComplete='none'
-                placeholder="Enter email"
-                value={email}
+                placeholder="Enter email..."
+                value={email || ''}
                 onChange={handleChange}
               />
             </div>
@@ -94,20 +137,20 @@ const AddEdit = () => {
                 Contact : 
               </label>
               <input
-                type="number"
-                // pattern='0-9'
+                type="tel"
+                pattern='[0-9]{10}'
+                maxLength={'10'}
+                size={'4'}
                 inputMode='Numeric'
                 className="form-control inputClass col-4"
                 id="contact"
                 name="contact"
-                placeholder="Enter contact number"
-                value={contact}
+                placeholder="Enter contact number..."
+                value={contact || ''}
                 onChange={handleChange}
               />
             </div>
-            <button type="submit" className="btn btn-primary">
-              Save
-            </button>
+            <input type="submit" value={id ? 'Update' : 'Save'} className='btn btn-primary btnC'/>
           </form>
         </div>
       </div>

@@ -26,3 +26,7 @@
 .inputClass:invalid{
     border: 2px solid red;
 }
+.btnC{
+    font-size: 18px;
+    width: 25%;
+}
