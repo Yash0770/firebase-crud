@@ -107,9 +107,7 @@ const AddEdit = () => {
                 id="name"
                 name="name"
                 autoComplete="none"
-                // pattern="[A-Za-z]{3}"
-                // pattern="[a-z]"
-                pattern="[A-Za-z]+"
+                pattern="^[A-Za-z ]+$"
                 maxLength={'30'}
                 placeholder="Enter name..."
                 value={name || ''}
