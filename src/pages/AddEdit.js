@@ -1,7 +1,3 @@
-// import fireDb from '../firebase'// AddEdit.js
-
-// AddEdit.js
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import fireDb from '../firebase';
@@ -102,7 +98,6 @@ const AddEdit = () => {
               </label>
               <input
                 type="text"
-                // size='4'
                 className="form-control inputClass col-4"
                 id="name"
                 name="name"

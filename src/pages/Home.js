@@ -8,7 +8,6 @@ function Home() {
   const [data, setData] = useState([])
   // console.log("data", data);
 
-
   useEffect(()=>{
     fireDb.ref('contact').on('value',(snapshot)=>{
       // console.log("snapshot", snapshot.val());

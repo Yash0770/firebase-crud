@@ -23,5 +23,4 @@ firebase.initializeApp(firebaseConfig);
 // const fireDb = firebase.database().ref();
 const fireDb = firebase.database()
 
-
 export default fireDb;

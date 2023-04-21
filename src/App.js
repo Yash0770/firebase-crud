@@ -11,8 +11,8 @@ import 'react-toastify/dist/ReactToastify.css'
 
 function App() {
   return (
-          <BrowserRouter>
     <div className="App">
+      <BrowserRouter>
           <Header/>
             <ToastContainer position='top-center' />
             <Routes>
@@ -22,8 +22,8 @@ function App() {
                 <Route path='/view/:id' element={<View/>}/>
                 <Route path='/about' element={<About/>}/>
             </Routes>
-    </div>
           </BrowserRouter>
+    </div>
   );
 }
 
