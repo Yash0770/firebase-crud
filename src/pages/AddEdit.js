@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import fireDb from '../firebase';
 import { toast } from 'react-toastify';
-import './AddEdit.css'
+import './AddEdit.css';
 
 const initialState = {
   name: '',
@@ -12,37 +12,36 @@ const initialState = {
 
 const AddEdit = () => {
   const [state, setState] = useState(initialState);
-  const [data, setData] = useState()
+  const [data, setData] = useState({});
 
   const { name, email, contact } = state;
   const navigate = useNavigate();
+  const { id } = useParams();
 
-  const {id}= useParams()
-
-  useEffect(()=>{
-    fireDb.ref('contact').on('value',(snapshot)=>{
-      if(snapshot.val() !== null){
-      setData({...snapshot.val()});
-      }else{
-        setData({})
+  useEffect(() => {
+    fireDb.ref('contact').on('value', (snapshot) => {
+      if (snapshot.val() !== null) {
+        setData({ ...snapshot.val() });
+      } else {
+        setData({});
       }
     });
-    return ()=>{
-      setData({})
-    }
-  },[id])
+    return () => {
+      setData({});
+    };
+  }, [id]);
 
-  useEffect(()=>{
-    if(id && data){
-      setState({...data[id]})
-    }else{
-      setState({...initialState})
+  useEffect(() => {
+    if (id && data) {
+      setState({ ...data[id] });
+    } else {
+      setState({ ...initialState });
     }
-    return ()=>{
-      setState({...initialState})
-    }
-  },[id, data])
-  
+    return () => {
+      setState({ ...initialState });
+    };
+  }, [id, data]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setState({ ...state, [name]: value });
@@ -56,33 +55,24 @@ const AddEdit = () => {
       return;
     }
 
-    // fireDb.ref("contacts").set({
-    //   name : name,
-    //   email:email,
-    //   contact:contact
-    // }) 
-    else{
-      if(!id){
-        fireDb.ref('contact').push(state, (err)=>{
-          console.log(state);
-          if(err){
-            toast.error(err.message);
-          } else{
-            toast.success('Contact has been added successfully')
-            setTimeout(()=>navigate('/'),500)
-          }
-        })
-      }else{
-        fireDb.ref(`contact/${id}`).set(state, (err)=>{
-          console.log(state);
-          if(err){
-            toast.error(err.message);
-          } else{
-            toast.success('Contact updated successfully')
-            setTimeout(()=>navigate('/'),500)
-          }
-        })
-      }
+    if (!id) {
+      fireDb.ref('contact').push(state, (err) => {
+        if (err) {
+          toast.error(err.message);
+        } else {
+          toast.success('Contact has been added successfully');
+          setTimeout(() => navigate('/'), 500);
+        }
+      });
+    } else {
+      fireDb.ref(`contact/${id}`).set(state, (err) => {
+        if (err) {
+          toast.error(err.message);
+        } else {
+          toast.success('Contact updated successfully');
+          setTimeout(() => navigate('/'), 500);
+        }
+      });
     }
   };
 
@@ -94,7 +84,7 @@ const AddEdit = () => {
           <form onSubmit={handleSubmit}>
             <div className="container mb-3 d-flex">
               <label htmlFor="name" className="form-label col-4">
-                Name : 
+                Name:
               </label>
               <input
                 type="text"
@@ -111,7 +101,7 @@ const AddEdit = () => {
             </div>
             <div className="container mb-3 d-flex">
               <label htmlFor="email" className="form-label col-4">
-                Email address : 
+                Email address:
               </label>
               <input
                 type="email"
@@ -119,7 +109,7 @@ const AddEdit = () => {
                 id="email"
                 name="email"
                 pattern="[a-zA-Z0-9._%+-]+@(gmail\.com|hotmail\.com|yahoo\.com|email\.com)$"
-                autoComplete='none'
+                autoComplete="none"
                 placeholder="Enter email..."
                 value={email || ''}
                 onChange={handleChange}
@@ -127,14 +117,14 @@ const AddEdit = () => {
             </div>
             <div className="container mb-3 d-flex">
               <label htmlFor="contact" className="form-label col-4">
-                Contact : 
+                Contact:
               </label>
               <input
                 type="tel"
-                pattern='[0-9]{10}'
+                pattern="[0-9]{10}"
                 maxLength={'10'}
                 size={'4'}
-                inputMode='Numeric'
+                inputMode="numeric"
                 className="form-control inputClass col-4"
                 id="contact"
                 name="contact"
@@ -143,7 +133,7 @@ const AddEdit = () => {
                 onChange={handleChange}
               />
             </div>
-            <input type="submit" value={id ? 'Update' : 'Save'} className='btn btn-primary btnC'/>
+            <input type="submit" value={id ? 'Update' : 'Save'} className="btn btn-primary btnC" />
           </form>
         </div>
       </div>
