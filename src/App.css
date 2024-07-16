@@ -74,3 +74,9 @@
     margin-left: 0px;
   }
 }
+
+@media (min-width: 800px) and (max-width: 2100px) {
+  .custom-button {
+    margin-right: 140px !important;
+  }
+}
