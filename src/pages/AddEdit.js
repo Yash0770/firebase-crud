@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import fireDb from '../firebase';
-import { toast } from 'react-toastify';
-import './AddEdit.css';
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import fireDb from "../firebase";
+import { toast } from "react-toastify";
+import "./AddEdit.css";
 
 const initialState = {
-  name: '',
-  email: '',
-  contact: ''
+  name: "",
+  email: "",
+  contact: "",
 };
 
 const AddEdit = () => {
@@ -19,7 +19,7 @@ const AddEdit = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    fireDb.ref('contact').on('value', (snapshot) => {
+    fireDb.ref("contact").on("value", (snapshot) => {
       if (snapshot.val() !== null) {
         setData({ ...snapshot.val() });
       } else {
@@ -51,17 +51,17 @@ const AddEdit = () => {
     e.preventDefault();
 
     if (!name || !email || !contact) {
-      toast.error('Please fill all fields.');
+      toast.error("Please fill all fields.");
       return;
     }
 
     if (!id) {
-      fireDb.ref('contact').push(state, (err) => {
+      fireDb.ref("contact").push(state, (err) => {
         if (err) {
           toast.error(err.message);
         } else {
-          toast.success('Contact has been added successfully');
-          setTimeout(() => navigate('/'), 500);
+          toast.success("Contact has been added successfully");
+          setTimeout(() => navigate("/"), 500);
         }
       });
     } else {
@@ -69,8 +69,8 @@ const AddEdit = () => {
         if (err) {
           toast.error(err.message);
         } else {
-          toast.success('Contact updated successfully');
-          setTimeout(() => navigate('/'), 500);
+          toast.success("Contact updated successfully");
+          setTimeout(() => navigate("/"), 500);
         }
       });
     }
@@ -82,58 +82,101 @@ const AddEdit = () => {
       <div className="row">
         <div className="col-md-6 offset-md-3">
           <form onSubmit={handleSubmit}>
-            <div className="container mb-3 d-flex">
-              <label htmlFor="name" className="form-label col-4">
-                Name:
-              </label>
-              <input
-                type="text"
-                className="form-control inputClass col-4"
-                id="name"
-                name="name"
-                autoComplete="none"
-                pattern="^[A-Za-z ]+$"
-                maxLength={'30'}
-                placeholder="Enter name..."
-                value={name || ''}
-                onChange={handleChange}
-              />
+            <div className="container mb-3">
+              <div className="row d-flex w-100 fields-custom-class1 fields-custom-class2 fields-custom-class3">
+                <div className="d-flex justify-content-start col-lg-6 col-md-6 col-sm-12 justify-content-md-start label-custom">
+                  <div className="p-2">
+                    <label
+                      htmlFor="name"
+                      className="form-label col-4"
+                      style={{ marginRight: "66px" }}
+                    >
+                      Name:
+                    </label>
+                  </div>
+                </div>
+
+                <div className="d-flex justify-content-end col-lg-6 col-md-6 col-sm-12 justify-content-md-start input-custom">
+                  <div className="p-2">
+                    <input
+                      type="text"
+                      className="form-control inputClass col-4"
+                      id="name"
+                      name="name"
+                      autoComplete="none"
+                      pattern="^[A-Za-z ]+$"
+                      maxLength={"30"}
+                      placeholder="Enter name..."
+                      value={name || ""}
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="container mb-3 d-flex">
-              <label htmlFor="email" className="form-label col-4">
-                Email address:
-              </label>
-              <input
-                type="email"
-                className="form-control inputClass col-4"
-                id="email"
-                name="email"
-                pattern="[a-zA-Z0-9._%+-]+@(gmail\.com|hotmail\.com|yahoo\.com|email\.com)$"
-                autoComplete="none"
-                placeholder="Enter email..."
-                value={email || ''}
-                onChange={handleChange}
-              />
+
+            <div className="container mb-3">
+              <div className="row d-flex w-100 fields-custom-class1 fields-custom-class2 fields-custom-class3">
+                <div className="d-flex justify-content-start col-lg-6 col-md-6 col-sm-12 justify-content-md-start label-custom">
+                  <div className="p-2">
+                    <label htmlFor="email" className="form-label ">
+                      Email address:
+                    </label>
+                  </div>
+                </div>
+                <div className="d-flex justify-content-end col-lg-6 col-md-6 col-sm-12 justify-content-md-start input-custom">
+                  <div className="p-2">
+                    <input
+                      type="email"
+                      className="form-control inputClass "
+                      id="email"
+                      name="email"
+                      pattern="[a-zA-Z0-9._%+-]+@(gmail\.com|hotmail\.com|yahoo\.com|email\.com)$"
+                      autoComplete="none"
+                      placeholder="Enter email..."
+                      value={email || ""}
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="container mb-3 d-flex">
-              <label htmlFor="contact" className="form-label col-4">
-                Contact:
-              </label>
-              <input
-                type="tel"
-                pattern="[0-9]{10}"
-                maxLength={'10'}
-                size={'4'}
-                inputMode="numeric"
-                className="form-control inputClass col-4"
-                id="contact"
-                name="contact"
-                placeholder="Enter contact number..."
-                value={contact || ''}
-                onChange={handleChange}
-              />
+
+            <div className="container mb-3">
+              <div className="row d-flex w-100 fields-custom-class1 fields-custom-class2 fields-custom-class3">
+                <div className="d-flex justify-content-start col-lg-6 col-md-6 col-sm-12 justify-content-md-start label-custom">
+                  <div className="p-2">
+                    <label htmlFor="contact" className="form-label ">
+                      Contact:
+                    </label>
+                  </div>
+                </div>
+
+                <div className="d-flex justify-content-end col-lg-6 col-md-6 col-sm-12 justify-content-md-start input-custom">
+                  <div className="p-2">
+                    <input
+                      type="tel"
+                      pattern="[0-9]{10}"
+                      maxLength={"10"}
+                      size={"4"}
+                      inputMode="numeric"
+                      className="form-control inputClass "
+                      id="contact"
+                      name="contact"
+                      placeholder="Enter contact number..."
+                      value={contact || ""}
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
-            <input type="submit" value={id ? 'Update' : 'Save'} className="btn btn-primary btnC" />
+
+            <input
+              type="submit"
+              value={id ? "Update" : "Save"}
+              className="btn btn-primary btnC"
+            />
           </form>
         </div>
       </div>
