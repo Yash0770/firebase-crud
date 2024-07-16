@@ -84,7 +84,7 @@ const AddEdit = () => {
           <form onSubmit={handleSubmit}>
             <div className="container mb-3">
               <div className="row d-flex w-100 fields-custom-class1 fields-custom-class2 fields-custom-class3">
-                <div className="d-flex justify-content-start col-lg-6 col-md-6 col-sm-12 justify-content-md-start label-custom">
+                <div className="d-flex justify-content-start col-lg-4 col-md-6 col-sm-12 justify-content-md-start label-custom">
                   <div className="p-2">
                     <label
                       htmlFor="name"
@@ -96,7 +96,7 @@ const AddEdit = () => {
                   </div>
                 </div>
 
-                <div className="d-flex justify-content-end col-lg-6 col-md-6 col-sm-12 justify-content-md-start input-custom">
+                <div className="d-flex justify-content-end col-lg-8 col-md-6 col-sm-12 justify-content-md-start input-custom">
                   <div className="p-2">
                     <input
                       type="text"
@@ -117,14 +117,14 @@ const AddEdit = () => {
 
             <div className="container mb-3">
               <div className="row d-flex w-100 fields-custom-class1 fields-custom-class2 fields-custom-class3">
-                <div className="d-flex justify-content-start col-lg-6 col-md-6 col-sm-12 justify-content-md-start label-custom">
+                <div className="d-flex justify-content-start col-lg-4 col-md-6 col-sm-12 justify-content-md-start label-custom">
                   <div className="p-2">
                     <label htmlFor="email" className="form-label ">
                       Email address:
                     </label>
                   </div>
                 </div>
-                <div className="d-flex justify-content-end col-lg-6 col-md-6 col-sm-12 justify-content-md-start input-custom">
+                <div className="d-flex justify-content-end col-lg-8 col-md-6 col-sm-12 justify-content-md-start input-custom">
                   <div className="p-2">
                     <input
                       type="email"
@@ -144,7 +144,7 @@ const AddEdit = () => {
 
             <div className="container mb-3">
               <div className="row d-flex w-100 fields-custom-class1 fields-custom-class2 fields-custom-class3">
-                <div className="d-flex justify-content-start col-lg-6 col-md-6 col-sm-12 justify-content-md-start label-custom">
+                <div className="d-flex justify-content-start col-lg-4 col-md-6 col-sm-12 justify-content-md-start label-custom">
                   <div className="p-2">
                     <label htmlFor="contact" className="form-label ">
                       Contact:
@@ -152,7 +152,7 @@ const AddEdit = () => {
                   </div>
                 </div>
 
-                <div className="d-flex justify-content-end col-lg-6 col-md-6 col-sm-12 justify-content-md-start input-custom">
+                <div className="d-flex justify-content-end col-lg-8 col-md-6 col-sm-12 justify-content-md-start input-custom">
                   <div className="p-2">
                     <input
                       type="tel"
@@ -175,7 +175,7 @@ const AddEdit = () => {
             <input
               type="submit"
               value={id ? "Update" : "Save"}
-              className="btn btn-primary btnC"
+              className="btn btn-primary btnC custom-button"
             />
           </form>
         </div>
